@@ -1,5 +1,4 @@
-FROM amake/wine:wine64-bookworm as inno
-MAINTAINER Aaron Madlon-Kay <aaron@madlon-kay.com>
+FROM amake/wine:wine64-bookworm AS inno
 
 USER root
 
@@ -8,13 +7,13 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # get at least error information from wine
-ENV WINEDEBUG -all,err+all
+ENV WINEDEBUG=-all,err+all
 
 # Run virtual X buffer on this port
-ENV DISPLAY :99
+ENV DISPLAY=:99
 
 COPY opt /opt
-ENV PATH $PATH:/opt/bin
+ENV PATH=$PATH:/opt/bin
 
 USER xclient
 
@@ -59,16 +58,16 @@ RUN dpkg --add-architecture i386 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY opt /opt
-ENV PATH $PATH:/opt/bin
+ENV PATH=$PATH:/opt/bin
 
 COPY --chown=xclient:xusers --from=inno /home/xclient/.wine /home/xclient/.wine
 RUN mkdir /work && chown xclient:xusers -R /work
 
 # Wine really doesn't like to be run as root, so let's use a non-root user
 USER xclient
-ENV HOME /home/xclient
-ENV WINEPREFIX /home/xclient/.wine
-ENV WINEARCH win64
+ENV HOME=/home/xclient
+ENV WINEPREFIX=/home/xclient/.wine
+ENV WINEARCH=win64
 
 WORKDIR /work
 ENTRYPOINT ["iscc"]
