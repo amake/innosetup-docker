@@ -5,7 +5,8 @@ docker_tag := $(user)/innosetup:$(git_branch)
 .PHONY: build
 build: ## Build the Docker image
 build:
-	docker build --pull -t $(docker_tag) .
+# TODO(aaron): Figure out why building fails on linux/arm64
+	docker build --pull --platform linux/amd64 -t $(docker_tag) .
 
 .PHONY: test
 test: ## Test the Docker image
