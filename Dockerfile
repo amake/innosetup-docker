@@ -49,6 +49,8 @@ RUN addgroup --system xusers \
 # Install some tools required for creating the image
 # Install wine and related packages
 RUN dpkg --add-architecture i386 \
+    && sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/sources.list \
+    && sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
     wine \
