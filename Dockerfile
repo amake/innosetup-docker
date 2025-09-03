@@ -1,4 +1,4 @@
-FROM amake/wine:buster AS inno
+FROM amake/wine:bullseye AS inno
 
 USER root
 
@@ -34,7 +34,7 @@ RUN cd "/home/xclient/.wine/drive_c/Program Files/Inno Setup 6/Languages" \
     && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/is-6_4_1" \
     | tar xz --strip-components=4 --wildcards "*/Files/Languages/Unofficial/*.isl"
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 RUN addgroup --system xusers \
     && adduser \
