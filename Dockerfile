@@ -25,13 +25,13 @@ RUN wine reg add 'HKEY_CURRENT_USER\Software\Wine' /v ShowDotFiles /d Y \
     && while [ ! -f /home/xclient/.wine/user.reg ]; do sleep 1; done
 
 # Install Inno Setup binaries
-RUN curl -SL "https://files.jrsoftware.org/is/6/innosetup-6.6.1.exe" -o is.exe \
+RUN curl -SL "https://files.jrsoftware.org/is/6/innosetup-6.7.0.exe" -o is.exe \
     && wine-x11-run wine is.exe /SP- /VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES /DOWNLOADISCRYPT=1 \
     && rm is.exe
 
 # Install unofficial languages
 RUN cd "/home/xclient/.wine/drive_c/Program Files/Inno Setup 6/Languages" \
-    && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/is-6_6_1" \
+    && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/refs/tags/is-6_7_0" \
     | tar xz --strip-components=4 --wildcards "*/Files/Languages/Unofficial/*.isl"
 
 FROM debian:bookworm-slim
